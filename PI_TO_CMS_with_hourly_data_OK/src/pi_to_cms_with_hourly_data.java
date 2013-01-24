@@ -204,7 +204,7 @@ public class pi_to_cms_with_hourly_data {
 				Process pr1;
 				///////String archivo_salida = temp_outFile + "AmorebietaCMSPlantData_" + año_hora_anterior_largo + año_hora_anterior_largo + dia_hora_anterior + hora_anterior + "_ZIV.dat";
 				///String archivo_salida = temp_outFile + "AmorebietaCMSPlantData_" + año_menos_dos_horas_largo + mes_menos_dos_horas_corto + dia_menos_dos_horas + hora_menos_dos_horas + "_ZIV.dat";
-				String archivo_salida = temp_outFile + "AmorebietaCMSPlantData_" + año_hora_anterior_largo + año_hora_anterior_largo + dia_hora_anterior + hora_anterior + "_ZIV.dat";
+				String archivo_salida = temp_outFile + "AmorebietaCMSPlantData_" + año_hora_anterior_largo + mes_corto_hora_anterior + dia_hora_anterior + hora_anterior + "_ZIV.dat";
 				
 				
 				
@@ -224,17 +224,17 @@ public class pi_to_cms_with_hourly_data {
 				File file = new File(archivo_salida);
 				System.out.println("Se va a mover el archivo " + archivo_salida);
 				File dir = new File(cms_outFile);
-				//SE comenta para NO mover el archivo.
-				////boolean success = file.renameTo(new File(dir, file.getName()));
 				
-				boolean success = true;
+				boolean success = file.renameTo(new File(dir, file.getName()));
+				
+				//boolean success = true;
 				System.out.println("A la dirección " + cms_outFile);
 				
 				if (!success) {
 				   System.out.println("No se ha podido mover el fichero");
 				}else{
 				 // System.out.println("Fichero " + "AmorebietaCMSPlantData_" + año_menos_dos_horas_largo + mes_menos_dos_horas_corto + dia_menos_dos_horas + hora_menos_dos_horas + "_ZIV.dat"+ " movido con exito");
-					 System.out.println("Fichero " + "AmorebietaCMSPlantData_" + año_hora_anterior_largo + año_hora_anterior_largo + dia_hora_anterior + hora_anterior + "_ZIV.dat"+ " movido con exito");
+					 System.out.println("Fichero " + "AmorebietaCMSPlantData_" + año_hora_anterior_largo + mes_corto_hora_anterior + dia_hora_anterior + hora_anterior + "_ZIV.dat"+ " movido con exito");
 				}
 				
 				
