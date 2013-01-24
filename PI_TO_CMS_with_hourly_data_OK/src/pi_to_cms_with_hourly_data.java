@@ -183,11 +183,16 @@ public class pi_to_cms_with_hourly_data {
 				String cms_outFile = Archivopropiedades.cms_outFile();
 				System.out.println(temp_outFile);
 				System.out.println(cms_outFile);
-				String texto1 = "@echo off\r\n@table piarc\r\n@mode list\r\n@istru tag, starttime, endtime, count\r\n@ostru tag, value\r\n@ostru ...\r\n";	
-				String texto2 = "FiscalMeter.Tag,"+ dia_hora_anterior+"-"+ mes_hora_anterior+"-"+año_hora_anterior+" "+hora_anterior+":00:00,"+dia_actual+"-"+mes_actual+"-"+año_actual+
-						" "+hora_actual+":00:00,1\r\n";
-				String texto3 = "@endsection\r\n";
-				String todo = texto1+texto2+texto3;
+				
+				//se comentan estas lineas para probar con el comando pisnap.
+				//String texto1 = "@echo off\r\n@table piarc\r\n@mode list\r\n@istru tag, starttime, endtime, count\r\n@ostru tag, value\r\n@ostru ...\r\n";	
+				//String texto2 = "FiscalMeter.Tag,"+ dia_hora_anterior+"-"+ mes_hora_anterior+"-"+año_hora_anterior+" "+hora_anterior+":00:00,"+dia_actual+"-"+mes_actual+"-"+año_actual+
+				//		" "+hora_actual+":00:00,1\r\n";
+				//String texto3 = "@endsection\r\n";
+				//String todo = texto1+texto2+texto3;
+				String todo= "@echo off\r\n@table pisnap\r\n@mode list\r\n@ostr tag, value\r\n@sele tag=FiscalMeter.Tag\r\n@ends\r\n";
+				
+				
 				//System.out.println(todo);
 				try {
 				File f = new File("0ZIVtag.txt");
@@ -197,9 +202,9 @@ public class pi_to_cms_with_hourly_data {
 				fw.close();
 				Runtime rt = Runtime.getRuntime();
 				Process pr1;
-				///////String archivo_salida = temp_outFile + "AmorebietaCMSPlantData_" + año_hora_anterior_largo + mes_corto_hora_anterior + dia_hora_anterior + hora_anterior + "_ZIV.dat";
-				String archivo_salida = temp_outFile + "AmorebietaCMSPlantData_" + año_menos_dos_horas_largo + mes_menos_dos_horas_corto + dia_menos_dos_horas + hora_menos_dos_horas + "_ZIV.dat";
-				
+				///////String archivo_salida = temp_outFile + "AmorebietaCMSPlantData_" + año_hora_anterior_largo + año_hora_anterior_largo + dia_hora_anterior + hora_anterior + "_ZIV.dat";
+				///String archivo_salida = temp_outFile + "AmorebietaCMSPlantData_" + año_menos_dos_horas_largo + mes_menos_dos_horas_corto + dia_menos_dos_horas + hora_menos_dos_horas + "_ZIV.dat";
+				String archivo_salida = temp_outFile + "AmorebietaCMSPlantData_" + año_hora_anterior_largo + año_hora_anterior_largo + dia_hora_anterior + hora_anterior + "_ZIV.dat";
 				
 				
 				
@@ -219,13 +224,17 @@ public class pi_to_cms_with_hourly_data {
 				File file = new File(archivo_salida);
 				System.out.println("Se va a mover el archivo " + archivo_salida);
 				File dir = new File(cms_outFile);
-				boolean success = file.renameTo(new File(dir, file.getName()));
+				//SE comenta para NO mover el archivo.
+				////boolean success = file.renameTo(new File(dir, file.getName()));
+				
+				boolean success = true;
 				System.out.println("A la dirección " + cms_outFile);
 				
 				if (!success) {
 				   System.out.println("No se ha podido mover el fichero");
 				}else{
-				  System.out.println("Fichero " + "AmorebietaCMSPlantData_" + año_menos_dos_horas_largo + mes_menos_dos_horas_corto + dia_menos_dos_horas + hora_menos_dos_horas + "_ZIV.dat"+ " movido con exito");
+				 // System.out.println("Fichero " + "AmorebietaCMSPlantData_" + año_menos_dos_horas_largo + mes_menos_dos_horas_corto + dia_menos_dos_horas + hora_menos_dos_horas + "_ZIV.dat"+ " movido con exito");
+					 System.out.println("Fichero " + "AmorebietaCMSPlantData_" + año_hora_anterior_largo + año_hora_anterior_largo + dia_hora_anterior + hora_anterior + "_ZIV.dat"+ " movido con exito");
 				}
 				
 				
