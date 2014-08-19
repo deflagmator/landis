@@ -68,12 +68,7 @@ public class pi_to_cms_with_hourly_data {
 	
 	
 	public static String mes_menos_dos_horas;
-	public static String 	 mes_menos_dos_horas_corto ;
-	
-	
-	
-	
-	
+	public static String mes_menos_dos_horas_corto ;
 	
 	
 	
