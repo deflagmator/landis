@@ -30,12 +30,24 @@ public class landis_pi_ufl {
 		//Cogemos fecha y hora actuales.
 		Integer	generar_ahora= 0;
 		Integer bucle = 1;
+		Boolean GT1_fallo=false;
+		Boolean GT2_fallo=false;
+		Boolean TV_fallo=false;
+		Boolean GATIKA_fallo=false;
+		Boolean ITXASO_fallo=false;
+		Boolean KV_fallo=false;
+		
 		
 		ultimo_bucle_generado = "200101010000";
 		propiedades Archivopropiedades1 = new propiedades();
 		String minutos_generacion = Archivopropiedades1.minutos_generacion();
 		String reinicio_sin_datos = Archivopropiedades1.reinicio_sin_datos();
 		String incremento_minutos = Archivopropiedades1.incremento_minutos();
+		String host = Archivopropiedades1.host();
+		String from = Archivopropiedades1.from();
+		String to = Archivopropiedades1.to();
+		
+		
 		while (bucle == 1){	
 			//añadido 18 agosto 2014 marcos para que el bucle se reinicie al pasar una hora sin datos.
 			if (Integer.parseInt(minutos_generacion) > Integer.parseInt(reinicio_sin_datos)){
@@ -78,6 +90,7 @@ public class landis_pi_ufl {
 			 	generar_ahora = 1;
 			 	ultimo_bucle_generado = año_actual + mes_actual + dia_actual + hora_actual + minutos_actual;
 			}else{
+			//	generar_ahora = 1; !!!!!!!!!!!!!!!!!!!!!ATENCIÓN SOLO PARA TEST HAY QUE DEJAR EL "1" !!!!!!!!!!!!!!!!!!!!!!
 				generar_ahora = 0;
 			}
 			//System.out.println( año_actual + mes_actual + dia_actual + hora_actual + minutos_actual );
@@ -95,37 +108,53 @@ public class landis_pi_ufl {
 			Date Fecha = new Date();
 			String tag = "00001";
 			final String datos_fichero1 = crear_fichero.landis(Fecha, tag, ruta_archivo_landis, ruta_archivo_pi_ufl);
+			if (datos_fichero1.equals("No hay datos")){
+				 GT1_fallo = true;
+			}
+			tag = "00002";
+			final String datos_fichero2= crear_fichero.landis(Fecha, tag, ruta_archivo_landis, ruta_archivo_pi_ufl);
+			if (datos_fichero2.equals("No hay datos")){
+				 GT2_fallo = true;
+			}
+			tag = "00003";
+			final String datos_fichero3= crear_fichero.landis(Fecha, tag, ruta_archivo_landis, ruta_archivo_pi_ufl);
+			if (datos_fichero3.equals("No hay datos")){
+				 TV_fallo = true;
+			}
+			tag = "00004";
+			final String datos_fichero4= crear_fichero.landis(Fecha, tag, ruta_archivo_landis, ruta_archivo_pi_ufl);
+			if (datos_fichero4.equals("No hay datos")){
+				 GATIKA_fallo = true;
+			}
+			tag = "00005";
+			final String datos_fichero5 = crear_fichero.landis(Fecha, tag, ruta_archivo_landis, ruta_archivo_pi_ufl);
+			if (datos_fichero5.equals("No hay datos")){
+				 ITXASO_fallo = true;
+			}
+			tag = "00006";
+			final String datos_fichero6 = crear_fichero.landis(Fecha, tag, ruta_archivo_landis, ruta_archivo_pi_ufl);
+			if (datos_fichero6.equals("No hay datos")){
+				 KV_fallo = true;
+			}
 			
-			 tag = "00002";
 			
-			 crear_fichero.landis(Fecha, tag, ruta_archivo_landis, ruta_archivo_pi_ufl);
-			 
-			 tag = "00003";
-			
-			 crear_fichero.landis(Fecha, tag, ruta_archivo_landis, ruta_archivo_pi_ufl);
-			 
-			 tag = "00004";
-			
-			 crear_fichero.landis(Fecha, tag, ruta_archivo_landis, ruta_archivo_pi_ufl);
-			
-			 tag = "00005";
-			 
-			crear_fichero.landis(Fecha, tag, ruta_archivo_landis, ruta_archivo_pi_ufl);
-			
-			 tag = "00006";
-			
-			 crear_fichero.landis(Fecha, tag, ruta_archivo_landis, ruta_archivo_pi_ufl);
-			
-			 if (datos_fichero1.equals("No hay datos")){
+			if (GT1_fallo.equals(true) |GT2_fallo.equals(true)|TV_fallo.equals(true)|GATIKA_fallo.equals(true)|ITXASO_fallo.equals(true)|KV_fallo.equals(true) ){
+			 //if (datos_fichero1.equals("No hay datos")){
 				
 				Integer  nuevos_minutos_generacion = Integer.parseInt(minutos_generacion)+ Integer.parseInt(incremento_minutos);
 				//Añadido marcos 19/ago/2014 para controlar el mensaje de salida al sobrepasarse el numero de intentos por hora.
 				if (nuevos_minutos_generacion >  Integer.parseInt(reinicio_sin_datos)){
 					System.out.println("No hay datos se va a intentar de nuevo en la hora siguiente");
+					String fallo = ("Fallo en "+"GT1="+ GT1_fallo+"GT2="+GT2_fallo+"TV="+TV_fallo+"GATIKA="+GATIKA_fallo+"ITXASO="+ITXASO_fallo+"30KV="+KV_fallo);
+					System.out.println(fallo);
+					 SendEmail.main(fallo,host,from,to);
 					minutos_generacion = Archivopropiedades1.minutos_generacion();
 				}else{
 				ultimo_bucle_generado = "200101010000";
 				System.out.println("No hay datos se va a intentar de nuevo en el minuto " + nuevos_minutos_generacion + " de esta hora");
+				String fallo = ("Fallo en "+"GT1="+ GT1_fallo+"GT2="+GT2_fallo+"TV="+TV_fallo+"GATIKA="+GATIKA_fallo+"ITXASO="+ITXASO_fallo+"30KV="+KV_fallo);
+				SendEmail.main(fallo,host,from,to);
+				System.out.println(fallo);
 				minutos_generacion = String.valueOf(nuevos_minutos_generacion);
 				}
 			 }else{

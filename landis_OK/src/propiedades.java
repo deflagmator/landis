@@ -14,6 +14,9 @@ public class propiedades {
 	String minutos_generacion;
 	String reinicio_sin_datos;
 	String incremento_minutos;
+	String host;
+	String from;
+	String to;
 	
 	Properties prop  = new Properties();
 	
@@ -59,7 +62,29 @@ public class propiedades {
 		}
 		return incremento_minutos;
 		}
-	
-	
+	String host(){
+		try{
+			prop.load(new FileInputStream(archivo_properties));
+			host = prop.getProperty("host");
+		}catch(IOException e){
+		}
+		return host;
+		}
+	String from(){
+		try{
+			prop.load(new FileInputStream(archivo_properties));
+			from = prop.getProperty("from");
+		}catch(IOException e){
+		}
+		return from;
+		}
+	String to(){
+		try{
+			prop.load(new FileInputStream(archivo_properties));
+			to = prop.getProperty("to");
+		}catch(IOException e){
+		}
+		return to;
+		}
 	
 }
